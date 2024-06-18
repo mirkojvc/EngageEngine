@@ -1,0 +1,25 @@
+version: "3.8"
+
+services:
+  mongodb:
+    image: mongo:latest
+    container_name: mongodb
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongodbdata:/data/db
+
+  engage-engine:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: EngageEngine
+    volumes:
+      - ./src:/app/src
+    ports:
+      - "3000:3000"
+    depends_on:
+      - mongodb
+
+volumes:
+  mongodbdata:
