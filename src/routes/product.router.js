@@ -25,4 +25,14 @@ router.post("/", async (req, res) => {
   }
 });
 
+router.get("/", async (req, res) => {
+  try {
+    const products = await database.productCollection.find().toArray();
+
+    return res.status(200).json(products);
+  } catch (e) {
+    console.error("Failed to get products", e);
+  }
+});
+
 export default router;

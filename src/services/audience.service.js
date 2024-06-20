@@ -1,4 +1,4 @@
-import { AUDIENCE_PROMPTS } from "../prompts/audiance.prompts.js";
+import { AUDIENCE_PROMPTS } from "../prompts/audience.prompts.js";
 import callOpenAiApi, { createAIMessage } from "./aiservice.js";
 
 export async function getAudienceForProduct(product) {
@@ -6,10 +6,9 @@ export async function getAudienceForProduct(product) {
   const prompt = `${product_message} ${AUDIENCE_PROMPTS.GENERATE.MESSAGE}`;
   const message = createAIMessage("user", prompt);
   const response = await callOpenAiApi(message);
-
-  return JSON.parse(response.choises[0].message.content);
+  return JSON.parse(response.choices[0].message.content);
 }
 
-function createProductMessage(product) {
+export function createProductMessage(product) {
   return `[PRODUCT]= NAME: ${product.name}, DESCRIPTION: ${product.description}, MARKET: ${product.market}`;
 }
