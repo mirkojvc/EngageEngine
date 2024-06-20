@@ -6,11 +6,14 @@ import database from "./services/database.js";
 import personasRouter from "./routes/personas.router.js";
 import emailRouter from "./routes/email.router.js";
 import socialRouter from "./routes/social.router.js";
+import cors from "cors";
 
 config();
 
 const app = express();
 const port = 3000;
+
+app.use(cors());
 
 const router = new Router();
 app.use(json());

@@ -20,6 +20,10 @@ audienceRouter.post("/:id", async (req, res) => {
     const response = await getAudienceForProduct(product);
     const audiences = response.audiences;
 
+    await database.audienceCollection.deleteMany({
+      productId: id,
+    });
+
     await database.audienceCollection.insertMany(
       audiences.map((audience) => {
         return {
@@ -45,6 +49,21 @@ audienceRouter.post("/:id", async (req, res) => {
 audienceRouter.get("/", async (req, res) => {
   try {
     const audiences = await database.audienceCollection.find().toArray();
+    return res.status(200).json(audiences);
+  } catch (e) {
+    console.error("Failed to get audiences", e);
+    return res.status(500).send("Failed to get audiences");
+  }
+});
+
+audienceRouter.get("/:productId", async (req, res) => {
+  try {
+    const { productId } = req.params;
+    const audiences = await database.audienceCollection
+      .find({
+        productId,
+      })
+      .toArray();
     return res.status(200).json(audiences);
   } catch (e) {
     console.error("Failed to get audiences", e);

@@ -11,7 +11,6 @@ const emailRouter = new Router();
 emailRouter.post("/:id", async (req, res) => {
   try {
     const { id: personaId } = req.params;
-
     const dbEmailCampaign = await database.emailCollection.findOne({
       personaId,
     });
