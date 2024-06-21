@@ -35,4 +35,14 @@ router.get("/", async (req, res) => {
   }
 });
 
+router.delete("/", async (req, res) => {
+  try {
+    const response = await database.productCollection.deleteMany({});
+
+    return res.status(200).json(response);
+  } catch (e) {
+    console.error("Failed to delete products", e);
+  }
+});
+
 export default router;

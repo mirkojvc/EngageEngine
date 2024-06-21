@@ -27,13 +27,17 @@ personasRouter.post("/:id", async (req, res) => {
     const product = await database.productCollection.findOne({
       _id: new ObjectId(audience.productId),
     });
-    console.log("audience", audience);
-    console.log("product", product);
 
     const persona = await getPersonaForProductAudience(product, audience);
-    await database.personasCollection.insertOne({ ...persona, audienceId });
+    const { insertedId } = await database.personasCollection.insertOne({
+      ...persona,
+      audienceId,
+    });
 
-    return res.status(201).json(persona);
+    const data = await database.personasCollection.findOne({
+      _id: insertedId,
+    });
+    return res.status(201).json(data);
   } catch (e) {
     console.log(e);
     console.error("Failed to create personas for audience", e.response);
